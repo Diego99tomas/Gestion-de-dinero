@@ -22,7 +22,7 @@ def total_gastos():
         monto=elemento["gasto"]
         total=total+monto
         
-    print(f"\n {total} \n")
+    print(f"\n Gasto total: {total} \n")
    
 def filtrar_por_categoria(categoria):
     total_de_elementos_filtrados=[]
@@ -40,27 +40,29 @@ def filtrar_por_categoria(categoria):
 
 
 def mostrar_menu():
-    entrada=input("1. Registrar Gasto \n 2. Mostrar Gasto \n 3. Total de Gastos \n 4. Filtrar por categoria \n 0. Salir \n " )
-    opcion=int(entrada)
-    match opcion:
-        case 1:
-            registrar_gasto()
-            mostrar_menu()
-        case 2:
-            mostrar_gastos()
-            mostrar_menu()
-        case 3:
-            total_gastos()
-            mostrar_menu()
-        case 4:
-            busqueda=input("Ingrese categoria: ")
-            filtrar_por_categoria(busqueda)
-            mostrar_menu()
+    while True:
+            opcion = int(input(
+                "1. Registrar Gasto\n"
+                "2. Mostrar Gastos\n"
+                "3. Total de Gastos\n"
+                "4. Filtrar por categoria\n"
+                "0. Salir\n"
+            ))
 
-        case 0:
-            return
+            match opcion:
+                case 1:
+                    registrar_gasto()
+                case 2:
+                    mostrar_gastos()
+                case 3:
+                    total_gastos()
+                case 4:
+                    busqueda = input("Ingrese categoria: ")
+                    filtrar_por_categoria(busqueda)
+                case 0:
+                    print("Gracias")
+                    break
 
                        
 
 mostrar_menu()
-print("Gracias")
