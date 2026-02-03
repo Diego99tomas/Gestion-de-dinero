@@ -19,7 +19,7 @@ def mostrar_gastos():
 def total_gastos():
     total=0
     for elemento in registroDeGastos:
-        monto=float(elemento["gasto"])
+        monto=elemento["gasto"]
         total=total+monto
         
     print(f"\n {total} \n")
@@ -35,7 +35,7 @@ def filtrar_por_categoria(categoria):
     else:   
         for i in total_de_elementos_filtrados:
             print(" \n ")
-            print(f"gasto: {i["gasto"]}, categoria : {i["categoria"]}, descripcion: {i["descripcion"]}")   
+            print(f"gasto: {i['gasto']}, categoria : {i['categoria']}, descripcion: {i['descripcion']}")   
         
 
 
