@@ -3,7 +3,7 @@
 registroDeGastos=[]
 
 def registrar_gasto():
-    gasto=input("ingrese monto: ")
+    gasto=float(input("ingrese monto: "))
     categoria=input("ingrese categoria: ")
     descripcion=input("ingrese descripcion: ")
 
@@ -12,7 +12,7 @@ def registrar_gasto():
 
 def mostrar_gastos():
     for i in registroDeGastos:
-        print(f"gasto: {i["gasto"]}, categoria : {i["categoria"]}, descripcion: {i["descripcion"]}")
+        print(f"gasto: {i['gasto']}, categoria : {i['categoria']}, descripcion: {i['descripcion']}")
     
     print("------------------------- \n")
 
