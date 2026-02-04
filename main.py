@@ -7,7 +7,6 @@ def registrar_gasto():
         gasto=float(input("ingrese monto: "))
         if gasto <= 0:
             print("\n El monto debe ser positivo y mayor que cero \n")
-            return
         
     except ValueError:
         print("\n Debe ingresar un número \n")
@@ -22,7 +21,8 @@ def registrar_gasto():
 
 def mostrar_todos_los_gastos():
     if len(lista_de_gastos)==0:
-        print("No hay gastos registrados")
+        print("No hay gastos registrados \n")
+        return False
     else:    
         for posicion,i in enumerate(lista_de_gastos):
             posicion+=1
@@ -39,7 +39,32 @@ def total_gastos():
         
     print(f"\n Gasto total: {total} \n")
 
-   
+
+def eliminar_gasto():
+    if mostrar_todos_los_gastos() == False:
+        return
+    try:
+        posicion_del_gasto_a_eliminar=int(input("Ingrese la posicion del gasto a eliminar: "))
+        if posicion_del_gasto_a_eliminar<=0:
+            print("posicion no valida, verifique porfavor")
+            return
+        elif posicion_del_gasto_a_eliminar > len(lista_de_gastos):
+            print("La posicion indicada es incorrecta")
+            return
+    except ValueError:
+        print("\n Debe ingresar un número \n")
+        return
+
+    for posicion in range(len(lista_de_gastos)):
+        if posicion_del_gasto_a_eliminar-1==posicion:
+            confirmacion=input("¿Seguro? s/n: ")
+            if confirmacion == "s":
+                lista_de_gastos.pop(posicion_del_gasto_a_eliminar-1)
+                print("Se elimino correctamente")
+            else:
+                return    
+            
+    
 def filtrar_por_categoria(categoria):
     total_de_elementos_filtrados=[]
 
@@ -61,6 +86,7 @@ def mostrar_menu():
                 "2. Mostrar Gastos\n"
                 "3. Total de Gastos\n"
                 "4. Filtrar por categoria\n"
+                "5. Eliminar gasto\n"
                 "0. Salir\n"
             ))
 
@@ -74,6 +100,8 @@ def mostrar_menu():
                 case 4:
                     busqueda = input("Ingrese categoria: ").lower().strip()
                     filtrar_por_categoria(busqueda)
+                case 5:
+                    eliminar_gasto()
                 case 0:
                     print("Gracias")
                     break
