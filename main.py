@@ -13,7 +13,7 @@ def registrar_gasto():
         print("\n Debe ingresar un número \n")
         return
 
-    categoria=input("ingrese categoria: ").lower()
+    categoria=input("ingrese categoria: ").lower().strip()
     descripcion=input("ingrese descripcion: ")
 
     lista_de_gastos.append({"gasto":gasto,"categoria":categoria,"descripcion":descripcion})
@@ -21,10 +21,14 @@ def registrar_gasto():
     
 
 def mostrar_todos_los_gastos():
-    for i in lista_de_gastos:
-        print(f"gasto: {i['gasto']}, categoria : {i['categoria']}, descripcion: {i['descripcion']}")
-    
-    print("------------------------- \n")
+    if len(lista_de_gastos)==0:
+        print("No hay gastos registrados")
+    else:    
+        for posicion,i in enumerate(lista_de_gastos):
+            posicion+=1
+            print(f"{posicion}. Gasto: {i['gasto']} | categoria : {i['categoria']} | descripcion: {i['descripcion']}")
+        
+        print("------------------------- \n")
 
 
 def total_gastos():
@@ -47,7 +51,7 @@ def filtrar_por_categoria(categoria):
         print("\n No hay elementos que coincidan \n")           
     else:   
         for i in total_de_elementos_filtrados:
-            print(f"gasto: {i['gasto']}, categoria : {i['categoria']}, descripcion: {i['descripcion']}")   
+            print(f"gasto: {i['gasto']} | categoria : {i['categoria']} | descripcion: {i['descripcion']}")   
 
 
 def mostrar_menu():
@@ -68,12 +72,11 @@ def mostrar_menu():
                 case 3:
                     total_gastos()
                 case 4:
-                    busqueda = input("Ingrese categoria: ").lower()
+                    busqueda = input("Ingrese categoria: ").lower().strip()
                     filtrar_por_categoria(busqueda)
                 case 0:
                     print("Gracias")
                     break
 
-                       
 
 mostrar_menu()
