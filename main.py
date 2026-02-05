@@ -83,15 +83,19 @@ def filtrar_por_categoria(categoria):
 
 def mostrar_menu():
     while True:
-            opcion = int(input(
-                "1. Registrar Gasto\n"
-                "2. Mostrar Gastos\n"
-                "3. Total de Gastos\n"
-                "4. Filtrar por categoria\n"
-                "5. Eliminar gasto\n"
-                "0. Salir\n"
-            ))
-
+            try:
+                opcion = int(input(
+                    "1. Registrar Gasto\n"
+                    "2. Mostrar Gastos\n"
+                    "3. Total de Gastos\n"
+                    "4. Filtrar por categoria\n"
+                    "5. Eliminar gasto\n"
+                    "0. Salir\n"
+                ))
+            except ValueError:
+                print("Opción invalida")
+                continue
+            
             match opcion:
                 case 1:
                     registrar_gasto()
