@@ -7,6 +7,7 @@ def registrar_gasto():
         gasto=float(input("ingrese monto: "))
         if gasto <= 0:
             print("\n El monto debe ser positivo y mayor que cero \n")
+            return
         
     except ValueError:
         print("\n Debe ingresar un número \n")
@@ -66,16 +67,19 @@ def eliminar_gasto():
             
     
 def filtrar_por_categoria(categoria):
-    total_de_elementos_filtrados=[]
+    lista_de_elementos_filtrados=[]
 
     for elemento in lista_de_gastos:
        if elemento["categoria"]==categoria:
-           total_de_elementos_filtrados.append(elemento)
+           lista_de_elementos_filtrados.append(elemento)
 
-    if len(total_de_elementos_filtrados)==0: 
+    cantidad_de_elemtos_filtrados=len(lista_de_elementos_filtrados)       
+
+    if cantidad_de_elemtos_filtrados==0: 
         print("\n No hay elementos que coincidan \n")           
     else:   
-        for i in total_de_elementos_filtrados:
+        print(f"Se encontraron {cantidad_de_elemtos_filtrados} coincidencias: \n")
+        for i in lista_de_elementos_filtrados:
             print(f"gasto: {i['gasto']} | categoria : {i['categoria']} | descripcion: {i['descripcion']}")   
 
 
