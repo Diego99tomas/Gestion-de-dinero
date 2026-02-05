@@ -56,14 +56,12 @@ def eliminar_gasto():
         print("\n Debe ingresar un número \n")
         return
 
-    for posicion in range(len(lista_de_gastos)):
-        if posicion_del_gasto_a_eliminar-1==posicion:
-            confirmacion=input("¿Seguro? s/n: ")
-            if confirmacion == "s":
-                lista_de_gastos.pop(posicion_del_gasto_a_eliminar-1)
-                print("Se elimino correctamente")
-            else:
-                return    
+    confirmacion=input("¿Seguro? s/n: ")
+    if confirmacion == "s":
+        lista_de_gastos.pop(posicion_del_gasto_a_eliminar-1)
+        print("Se elimino correctamente")
+    else:
+        return    
             
     
 def filtrar_por_categoria(categoria):

@@ -1,12 +1,16 @@
 # Gestor de Gastos en Python
 
-Proyecto en Python que permite registrar y visualizar gastos personales usando consola.
+Programa de consola para registrar, listar, filtrar y eliminar gastos.
 
 ## Funcionalidades
 - Registrar gastos
-- Listar gastos
-- Calcular total
+- Mostrar gastos
+- Calcular gasto total
 - Filtrar por categoría
+- Eliminar gastos con confirmación
 
 ## Tecnologías
-- Python
+- Python 3
+
+## Autor
+Diego
