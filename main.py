@@ -1,5 +1,7 @@
 class Gasto:
-    def __init__(self, monto:int, categoria:str,comentario):
+    def __init__(self, monto:float, categoria:str,comentario:str):
+        if monto<=0:
+            raise ValueError("Monto invalido")
         
         self.monto=monto         
         self.categoria=categoria.lower().strip()
@@ -18,19 +20,16 @@ class GestorDeGastos:
     def registrar_gasto(self):
         try:
             gasto=float(input("ingrese monto: "))
-            if gasto <= 0:
-                print("\n El monto debe ser positivo y mayor que cero \n")
-                return
-            
+            categoria=input("ingrese categoria: ").lower().strip()
+            descripcion=input("ingrese descripcion: ")
+
+            self.lista_de_gastos.append(Gasto(gasto,categoria,descripcion))
+            print(f"\n Gasto añadido! \n" )
+
         except ValueError:
-            print("\n Debe ingresar un número \n")
+            print(f"\n Debe ingresar un número mayor que cero \n")
             return
-
-        categoria=input("ingrese categoria: ").lower().strip()
-        descripcion=input("ingrese descripcion: ")
-
-        self.lista_de_gastos.append(Gasto(gasto,categoria,descripcion))
-        print(f"\n Gasto añadido! \n" )
+        
         
 
     def mostrar_todos_los_gastos(self):
