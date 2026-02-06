@@ -11,7 +11,6 @@ class Gasto:
     def __str__(self):
         return f"Gasto: {self.monto} | categoria : {self.categoria} | descripcion: {self.comentario}"
     
-    
 
 class GestorDeGastos:
     def __init__(self):
@@ -35,7 +34,7 @@ class GestorDeGastos:
     def mostrar_todos_los_gastos(self):
         if len(self.lista_de_gastos)==0:
             print("No hay gastos registrados \n")
-            return False
+            return 
         else:    
             for posicion,gasto in enumerate(self.lista_de_gastos):
                 posicion+=1
@@ -53,15 +52,15 @@ class GestorDeGastos:
 
 
     def eliminar_gasto(self):
-        if self.mostrar_todos_los_gastos() == False:
+        if len(self.lista_de_gastos)==0:
+            print("No hay gastos registrados \n")
             return
+        
+        self.mostrar_todos_los_gastos()
         try:
             posicion_del_gasto_a_eliminar=int(input("Ingrese la posicion del gasto a eliminar: "))
-            if posicion_del_gasto_a_eliminar<=0:
+            if posicion_del_gasto_a_eliminar<=0 or posicion_del_gasto_a_eliminar > len(self.lista_de_gastos):
                 print("posicion no valida, verifique porfavor")
-                return
-            elif posicion_del_gasto_a_eliminar > len(self.lista_de_gastos):
-                print("La posicion indicada es incorrecta")
                 return
         except ValueError:
             print("\n Debe ingresar un número \n")
