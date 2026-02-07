@@ -1,20 +1,49 @@
+import json
+
+
 class Gasto:
-    def __init__(self, monto:float, categoria:str,comentario:str):
+    def __init__(self, monto:float, categoria:str,descripcion:str):
         if monto<=0:
             raise ValueError("Monto invalido")
         
         self.monto=monto         
         self.categoria=categoria.lower().strip()
-        self.comentario=comentario
+        self.descripcion=descripcion
     
+    def to_dict(self):
+        return {
+            "monto": self.monto,
+            "categoria":self.categoria,
+            "descripcion":self.descripcion
+        }
+    
+    @staticmethod
+    def from_dict(datos):
+        return Gasto(datos["monto"],datos["categoria"],datos["descripcion"])
 
     def __str__(self):
-        return f"Gasto: {self.monto} | categoria : {self.categoria} | descripcion: {self.comentario}"
+        return f"Monto: {self.monto} | Categoria : {self.categoria} | Descripcion: {self.descripcion}"
     
 
 class GestorDeGastos:
+    ARCHIVO="gastos.json"
+
     def __init__(self):
-        self.lista_de_gastos= [] 
+        self.lista_de_gastos= []
+        self.cargar_lista_de_gastos()
+
+
+    def cargar_lista_de_gastos(self):
+        try:
+            with open(self.ARCHIVO,"r") as leer_archivo:
+                datos_cargados=json.load(leer_archivo)
+                for i in datos_cargados:
+                    elemento=Gasto.from_dict(i)
+                    self.lista_de_gastos.append(elemento)   
+                print("archivo cargado exitosamente")
+        except FileExistsError:
+            print("No se encontro el archivo")
+
 
     def registrar_gasto(self):
         try:
@@ -22,12 +51,16 @@ class GestorDeGastos:
             categoria=input("ingrese categoria: ").lower().strip()
             descripcion=input("ingrese descripcion: ")
 
-            self.lista_de_gastos.append(Gasto(gasto,categoria,descripcion))
-            print(f"\n Gasto añadido! \n" )
-
         except ValueError:
             print(f"\n Debe ingresar un número mayor que cero \n")
             return
+        
+        nuevo_gasto=Gasto(gasto,categoria,descripcion)
+        self.lista_de_gastos.append(nuevo_gasto.to_dict()) 
+           
+        with open(self.ARCHIVO,"w") as escribir_archivo:
+            json.dump(self.lista_de_gastos,escribir_archivo,indent=4)
+            print("Gasto añadido correctamente")
         
         
 
@@ -46,7 +79,7 @@ class GestorDeGastos:
     def total_gastos(self):
         total=0
         for gasto in self.lista_de_gastos:
-            total=total+gasto.monto
+            total=total+gasto["monto"]
             
         print(f"\n Gasto total: {total} \n")
 
@@ -70,6 +103,8 @@ class GestorDeGastos:
         if confirmacion == "s":
             self.lista_de_gastos.pop(posicion_del_gasto_a_eliminar-1)
             print("Se elimino correctamente")
+            with open(self.ARCHIVO,"w") as escribir_archivo:
+                json.dump(self.lista_de_gastos,escribir_archivo,indent=4)
         else:
             return    
                 
