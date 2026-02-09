@@ -36,12 +36,9 @@ class GestorDeGastos:
     def cargar_lista_de_gastos(self):
         try:
             with open(self.ARCHIVO,"r") as leer_archivo:
-                datos_cargados=json.load(leer_archivo)
-                for i in datos_cargados:
-                    elemento=Gasto.from_dict(i)
-                    self.lista_de_gastos.append(elemento)   
+                self.lista_de_gastos=json.load(leer_archivo) 
                 print("archivo cargado exitosamente")
-        except FileExistsError:
+        except FileNotFoundError:
             print("No se encontro el archivo")
 
 
@@ -51,16 +48,16 @@ class GestorDeGastos:
             categoria=input("ingrese categoria: ").lower().strip()
             descripcion=input("ingrese descripcion: ")
 
+            nuevo_gasto=Gasto(gasto,categoria,descripcion)
+            self.lista_de_gastos.append(nuevo_gasto.to_dict()) 
+            
+            with open(self.ARCHIVO,"w") as escribir_archivo:
+                json.dump(self.lista_de_gastos,escribir_archivo,indent=4)
+                print("Gasto añadido correctamente")
+
         except ValueError:
             print(f"\n Debe ingresar un número mayor que cero \n")
             return
-        
-        nuevo_gasto=Gasto(gasto,categoria,descripcion)
-        self.lista_de_gastos.append(nuevo_gasto.to_dict()) 
-           
-        with open(self.ARCHIVO,"w") as escribir_archivo:
-            json.dump(self.lista_de_gastos,escribir_archivo,indent=4)
-            print("Gasto añadido correctamente")
         
         
 
@@ -70,8 +67,9 @@ class GestorDeGastos:
             return 
         else:    
             for posicion,gasto in enumerate(self.lista_de_gastos):
+                gasto_convertido=Gasto.from_dict(gasto)
                 posicion+=1
-                print(f"{posicion}.",gasto)
+                print(f"{posicion}.",gasto_convertido)
             
             print("------------------------- \n")
 
@@ -79,7 +77,8 @@ class GestorDeGastos:
     def total_gastos(self):
         total=0
         for gasto in self.lista_de_gastos:
-            total=total+gasto["monto"]
+            gasto_convertido=Gasto.from_dict(gasto)
+            total=total+gasto_convertido.monto
             
         print(f"\n Gasto total: {total} \n")
 
@@ -105,7 +104,7 @@ class GestorDeGastos:
             print("Se elimino correctamente")
             with open(self.ARCHIVO,"w") as escribir_archivo:
                 json.dump(self.lista_de_gastos,escribir_archivo,indent=4)
-        else:
+        else: 
             return    
                 
         
@@ -113,8 +112,9 @@ class GestorDeGastos:
         lista_de_elementos_filtrados=[]
 
         for gasto in self.lista_de_gastos:
-            if gasto.categoria==categoria:
-                lista_de_elementos_filtrados.append(gasto)
+            gasto_filtrado=Gasto.from_dict(gasto)
+            if gasto_filtrado.categoria==categoria:
+                lista_de_elementos_filtrados.append(gasto_filtrado)
 
         cantidad_de_elemtos_filtrados=len(lista_de_elementos_filtrados)       
 
