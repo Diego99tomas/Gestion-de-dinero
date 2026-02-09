@@ -1,2 +1,12 @@
 [
-    
+    {
+        "monto": 1000.0,
+        "categoria": "comida",
+        "descripcion": "frutas"
+    },
+    {
+        "monto": 1000.0,
+        "categoria": "medicina",
+        "descripcion": "paracetamol"
+    }
+]
