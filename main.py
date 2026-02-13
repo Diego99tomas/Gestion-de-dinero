@@ -36,10 +36,12 @@ class GestorDeGastos:
     def cargar_lista_de_gastos(self):
         try:
             with open(self.ARCHIVO,"r") as leer_archivo:
-                self.lista_de_gastos=json.load(leer_archivo) 
+                datos=json.load(leer_archivo) 
+                self.lista_de_gastos=[Gasto.from_dict(d) for d in datos]
                 print("archivo cargado exitosamente")
         except FileNotFoundError:
-            print("No se encontro el archivo")
+            self.lista_de_gastos=[]
+            print("No se encontro el archivo, se creara uno nuevo")
 
 
     def registrar_gasto(self):
@@ -49,10 +51,11 @@ class GestorDeGastos:
             descripcion=input("ingrese descripcion: ")
 
             nuevo_gasto=Gasto(gasto,categoria,descripcion)
-            self.lista_de_gastos.append(nuevo_gasto.to_dict()) 
+            self.lista_de_gastos.append(nuevo_gasto) 
             
             with open(self.ARCHIVO,"w") as escribir_archivo:
-                json.dump(self.lista_de_gastos,escribir_archivo,indent=4)
+                json.dump([gasto.to_dict() for gasto in self.lista_de_gastos]
+                          ,escribir_archivo,indent=4)
                 print("Gasto añadido correctamente")
 
         except ValueError:
@@ -67,9 +70,8 @@ class GestorDeGastos:
             return 
         else:    
             for posicion,gasto in enumerate(self.lista_de_gastos):
-                gasto_convertido=Gasto.from_dict(gasto)
                 posicion+=1
-                print(f"{posicion}.",gasto_convertido)
+                print(f"{posicion}.",gasto)
             
             print("------------------------- \n")
 
@@ -77,8 +79,7 @@ class GestorDeGastos:
     def total_gastos(self):
         total=0
         for gasto in self.lista_de_gastos:
-            gasto_convertido=Gasto.from_dict(gasto)
-            total=total+gasto_convertido.monto
+            total=total+gasto.monto
             
         print(f"\n Gasto total: {total} \n")
 
@@ -109,12 +110,7 @@ class GestorDeGastos:
                 
         
     def filtrar_por_categoria(self,categoria):
-        lista_de_elementos_filtrados=[]
-
-        for gasto in self.lista_de_gastos:
-            gasto_filtrado=Gasto.from_dict(gasto)
-            if gasto_filtrado.categoria==categoria:
-                lista_de_elementos_filtrados.append(gasto_filtrado)
+        lista_de_elementos_filtrados=[x for x in self.lista_de_gastos if x.categoria ==categoria]
 
         cantidad_de_elemtos_filtrados=len(lista_de_elementos_filtrados)       
 
