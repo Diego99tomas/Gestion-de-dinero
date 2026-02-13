@@ -1,12 +1,17 @@
 [
     {
-        "monto": 1000.0,
+        "monto": 20.0,
         "categoria": "comida",
         "descripcion": "frutas"
     },
     {
-        "monto": 1000.0,
+        "monto": 1.0,
         "categoria": "medicina",
         "descripcion": "paracetamol"
+    },
+    {
+        "monto": 100.0,
+        "categoria": "comida",
+        "descripcion": "almuerzo"
     }
 ]
