@@ -1,8 +1,9 @@
 import json
+from datetime import date
 
 
 class Gasto:
-    def __init__(self, monto:float, categoria:str,descripcion:str):
+    def __init__(self, monto:float, categoria:str,descripcion:str, fecha=None):
         if monto<=0:
             raise ValueError("Monto invalido")
         
@@ -102,11 +103,12 @@ class GestorDeGastos:
         confirmacion=input("¿Seguro? s/n: ")
         if confirmacion == "s":
             self.lista_de_gastos.pop(posicion_del_gasto_a_eliminar-1)
-            print("Se elimino correctamente")
             with open(self.ARCHIVO,"w") as escribir_archivo:
-                json.dump(self.lista_de_gastos,escribir_archivo,indent=4)
+                json.dump([gasto.to_dict() for gasto in self.lista_de_gastos],escribir_archivo,indent=4)
+            print("Se elimino correctamente")
+
         else: 
-            return    
+            return   
                 
         
     def filtrar_por_categoria(self,categoria):
@@ -119,7 +121,7 @@ class GestorDeGastos:
         else:   
             print(f"Se encontraron {cantidad_de_elemtos_filtrados} coincidencias: \n")
             for i in lista_de_elementos_filtrados:
-                print(i)   
+                print(i)
 
 
     def mostrar_menu(self):
