@@ -10,20 +10,22 @@ class Gasto:
         self.monto=monto         
         self.categoria=categoria.lower().strip()
         self.descripcion=descripcion
+        self.fecha=fecha if fecha else date.today().__str__()
     
     def to_dict(self):
         return {
             "monto": self.monto,
             "categoria":self.categoria,
-            "descripcion":self.descripcion
+            "descripcion":self.descripcion,
+            "fecha":self.fecha,
         }
     
     @staticmethod
     def from_dict(datos):
-        return Gasto(datos["monto"],datos["categoria"],datos["descripcion"])
+        return Gasto(datos["monto"],datos["categoria"],datos["descripcion"],datos.get("fecha"))
 
     def __str__(self):
-        return f"Monto: {self.monto} | Categoria : {self.categoria} | Descripcion: {self.descripcion}"
+        return f"{self.fecha} | Monto: {self.monto} | Categoria : {self.categoria} | Descripcion: {self.descripcion}"
     
 
 class GestorDeGastos:
@@ -124,6 +126,30 @@ class GestorDeGastos:
                 print(i)
 
 
+    def reporte_mensual(self):
+        mes=input("Ingrese el mes (YYYY-MM): ")
+
+        gastos_del_mes=[]
+        for gasto in self.lista_de_gastos:
+            if gasto.fecha.startswith(mes):
+                gastos_del_mes.append(gasto)
+
+        if not gastos_del_mes:
+            print("No hay gastos este mes")
+            return
+        
+        total=sum(gasto.monto for gasto in gastos_del_mes)
+        # for gasto in gastos_del_mes:
+        #     total=total+gasto.monto
+        
+        print(f"Los gastos del {mes} son:") 
+        for gasto in gastos_del_mes:
+            print(gasto)
+
+        print(f"Total: {total}")    
+
+
+        
     def mostrar_menu(self):
         while True:
                 try:
@@ -133,6 +159,7 @@ class GestorDeGastos:
                         "3. Total de Gastos\n"
                         "4. Filtrar por categoria\n"
                         "5. Eliminar gasto\n"
+                        "6. Reporte mensual\n"
                         "0. Salir\n"
                     ))
                 except ValueError:
@@ -151,6 +178,8 @@ class GestorDeGastos:
                         self.filtrar_por_categoria(busqueda)
                     case 5:
                         self.eliminar_gasto()
+                    case 6:
+                        self.reporte_mensual()
                     case 0:
                         print("Gracias")
                         break
